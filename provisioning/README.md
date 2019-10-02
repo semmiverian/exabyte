@@ -33,7 +33,9 @@ apt install -y php7.2-fpm php7.2-mysql php7.2-mbstring php7.2-dom php7.2-soap co
   mysql_secure_installation
 ```
 
-## Setting
+[Cara membuat database baru](https://www.a2hosting.co.id/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line#Create-MySQLDatabasesand-Users)
+
+## Setting NGINX
 
 ```bash
 ufw allow 'Nginx HTTP'
@@ -60,7 +62,7 @@ git clone https://github.com/semmiverian/exabyte.git
 cd exabyte
 ```
 
-## Setting compoer
+## Setting composer
 
 ```bash
 echo '#> set HOME or COMPOSER_HOME'
@@ -71,7 +73,7 @@ echo $COMPOSER_HOME
 export COMPOSER_HOME=/root
 ```
 
-## Instalasi dependensi laravel
+## Instalasi dependensi laravel dan setting nginx 
 
 ```bash
   sudo composer install
@@ -85,7 +87,4 @@ export COMPOSER_HOME=/root
   ln -s /etc/nginx/sites-available/exabyte /etc/nginx/sites-enabled/
   rm /etc/nginx/sites-enabled/default
   systemctl restart nginx
-
-
 ```
-
