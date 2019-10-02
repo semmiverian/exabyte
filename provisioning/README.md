@@ -23,6 +23,16 @@ apt -y install php 7.2
 apt install -y php7.2-fpm php7.2-mysql php7.2-mbstring php7.2-dom php7.2-soap composer php7.2-curl php7.2-gd php7.2-bcmath unzip
 ```
 
+## Instalasai Mysql
+
+```bash
+  wget http://repo.mysql.com/mysql-apt-config_0.8.10-1_all.deb
+  sudo dpkg -i mysql-apt-config_0.8.10-1_all.deb
+  sudo apt-get update
+  sudo apt-get install mysql-server
+  mysql_secure_installation
+```
+
 ## Setting
 
 ```bash
@@ -67,6 +77,7 @@ export COMPOSER_HOME=/root
   sudo composer install
   chmod 777 -R storage/
   chmod 777 -R bootstrap/
+  cp .env.example .env
   php artisan key:generate
   sudo cp provisioning/sites-available/exabyte /etc/nginx/sites-available/
   sudo rm /etc/nginx/nginx.conf
