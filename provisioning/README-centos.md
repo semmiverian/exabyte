@@ -1,44 +1,64 @@
+# Step by Step deployment laravel menuju server dengan os centos
+
+## Pindah user menjadi root
+
+```bash
+sudo su
+```
 
 ## Mengupdate list dari package yang tersedia dari linux
 
 ```bash
-apt-get -y update
+yum -y update
 ```
 
-## Instalasi Nginx pada komputer server kita 
+## Instalasi Nginx pada komputer server kita
 
 ```bash
-apt -y install nginx
+yum -y install epel-release
+yum -y install nginx
 ```
 
-## Instalasi PHP versi 7.2 pada komputer server kita 
+## Instalasi PHP versi 7.2 pada komputer server kita
 
 ```bash
-apt -y install php 7.2
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum-config-manager --enable remi-php72
+yum -y install php
 ```
 
-## Instalasi beberapa utilities php 
+## Instalasi beberapa utilities php
 
 ```bash
-apt install -y php7.2-fpm php7.2-mysql php7.2-mbstring php7.2-dom php7.2-soap composer php7.2-curl php7.2-gd php7.2-bcmath unzip
+apt install -y php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo php-fpm php-mbstring php-dom php-soap composer php-curl php-gd php-bcmath unzip
 ```
 
 ## Instalasai Mysql
 
 ```bash
-  wget http://repo.mysql.com/mysql-apt-config_0.8.10-1_all.deb
-  sudo dpkg -i mysql-apt-config_0.8.10-1_all.deb
-  sudo apt-get update
-  sudo apt-get install mysql-server
+  wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+  sudo rpm -ivh mysql57-community-release-el7-9.noarch.rpm
+  sudo yum -y install mysql-server
+  sudo systemctl start mysqld
+  grep 'temporary password' /var/log/mysqld.log
   mysql_secure_installation
+  P!j/j\kVm)k&29Wj
 ```
 
 [Cara membuat database baru](https://www.a2hosting.co.id/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line#Create-MySQLDatabasesand-Users)
 
+## Instalasi Redis
+
+```bash
+  yum -y install redis
+  systemctl enable redis
+  systemctl start redis
+```
+
 ## Setting NGINX
 
 ```bash
-ufw allow 'Nginx HTTP'
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.2/fpm/php.ini
 systemctl restart php7.2-fpm
 ```
@@ -73,7 +93,7 @@ echo $COMPOSER_HOME
 export COMPOSER_HOME=/root
 ```
 
-## Instalasi dependensi laravel dan setting nginx 
+## Instalasi dependensi laravel dan setting nginx
 
 ```bash
   sudo composer install
