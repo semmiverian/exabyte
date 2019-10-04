@@ -12,9 +12,9 @@ server {
         }
 
         location ~ \.php$ {
-                include /etc/nginx/fastcgi_params;
-                fastcgi_pass  127.0.0.1:9000;
                 fastcgi_index index.php;
+                fastcgi_pass unix:/run/php/php-fpm.sock;
+                include fastcgi_params;
         }
 
         location ~ /\.ht {
