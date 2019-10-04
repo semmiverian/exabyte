@@ -43,7 +43,7 @@ apt install -y php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php
   sudo systemctl start mysqld
   grep 'temporary password' /var/log/mysqld.log
   mysql_secure_installation
-  P!j/j\kVm)k&29Wj
+  # Example password P!j/j\kVm)k&29Wj
 ```
 
 [Cara membuat database baru](https://www.a2hosting.co.id/kb/developer-corner/mysql/managing-mysql-databases-and-users-from-the-command-line#Create-MySQLDatabasesand-Users)
@@ -82,17 +82,6 @@ git clone https://github.com/semmiverian/exabyte.git
 cd exabyte
 ```
 
-## Setting composer
-
-```bash
-echo '#> set HOME or COMPOSER_HOME'
-HOME=/root
-COMPOSER_HOME=/root
-echo $HOME
-echo $COMPOSER_HOME
-export COMPOSER_HOME=/root
-```
-
 ## Instalasi dependensi laravel dan setting nginx
 
 ```bash
@@ -101,10 +90,16 @@ export COMPOSER_HOME=/root
   chmod 777 -R bootstrap/
   cp .env.example .env
   php artisan key:generate
-  sudo cp provisioning/sites-available/exabyte /etc/nginx/sites-available/
+  sudo chown nginx:nginx /run/php-fpm/php-fpm.sock
+  mkdir /etc/nginx/snippets
+  mkdir /etc/nginx/sites-available
+  mkdir /etc/nginx/sites-enabled
+  sudo cp provisioning/centos/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
+  sudo cp provisioning/centos/php-fpm/www.conf /etc/php-fpm.d/www-conf
+  sudo cp provisioning/centos/sites-available/exabyte /etc/nginx/sites-available/
   sudo rm /etc/nginx/nginx.conf
-  sudo cp provisioning/nginx.conf /etc/nginx/
+  sudo cp provisioning/centos/nginx.conf /etc/nginx/
   ln -s /etc/nginx/sites-available/exabyte /etc/nginx/sites-enabled/
-  rm /etc/nginx/sites-enabled/default
+  systemctl restart php-fpm
   systemctl restart nginx
 ```
